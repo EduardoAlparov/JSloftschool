@@ -12,12 +12,11 @@
 
 function forEach(array, fn) {
   let i;
-  let length = array.length;
+  const length = array.length;
   for (i = 0; i < length; i = i + 1) {
     fn(array[i], i, array);
-  }  
+  }
 }
-
 
 /*
  Задание 2:
@@ -30,12 +29,12 @@ function forEach(array, fn) {
  */
 function map(array, fn) {
   let i;
-  let length = array.length;
-  let results = [];
+  const length = array.length;
+  const results = [];
 
   for (i = 0; i < length; i++) {
     results.push(fn.call(null, array[i], i, array));
-  }  
+  }
 
   return results;
 }
@@ -50,19 +49,15 @@ function map(array, fn) {
    reduce([1, 2, 3], (all, current) => all + current) // 6
  */
 function reduce(array, fn, initial) {
-  if (initial === undefined) {
-    let result = array[0];
-    for (let i = 1; i < array.length; i = i + 1) {
-      result = fn.call(null, result, array[i], i, array);
-    }
-    return result;
-  } else {
-    let result = initial;
-    for (let i = 0; i < array.length; i = i + 1) {
-      result = fn.call(null, result, array[i], i, array);
-    }
-    return result;
-  }  
+  const hasInitial = typeof initial !== 'undefined';
+
+  let result = hasInitial ? initial : array[0];
+
+  for (let i = hasInitial ? 0 : 1; i < array.length; i++) {
+    result = fn(result, array[i], i, array);
+  }
+
+  return result;
 }
 
 /*
@@ -74,13 +69,15 @@ function reduce(array, fn, initial) {
   upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
  */
 function upperProps(obj) {
-  let namesObj = Object.getOwnPropertyNames(obj);
+  const namesObj = Object.getOwnPropertyNames(obj);
   // console.log(namesObj)
-  let results = [];
-  
+  const results = [];
+
   for (let i = 0; i < namesObj.length; i++) {
     results.push(namesObj[i].toUpperCase());
   }
+  // 2й способ:
+  // return Objects.keys(obj).map(name => name.toUpperCase())
 
   return results;
 }
@@ -97,8 +94,13 @@ function upperProps(obj) {
    console.log(obj.foo); // 4
  */
 function createProxy(obj) {
-  let obj = {};
-  
+  return new Proxy(obj, {
+    set(obj, key, value) {
+      // obj = {} key = foo value = 2
+      obj[key] = value ** 2;
+      return true;
+    },
+  });
 }
 
 export { forEach, map, reduce, upperProps, createProxy };
