@@ -32,8 +32,6 @@
 import { loadAndSortTowns } from './functions';
 import './towns.html';
 
-const homeworkContainer = document.querySelector('#homework-container');
-
 /*
  Функция должна вернуть Promise, который должен быть разрешен с массивом городов в качестве значения
 
@@ -59,6 +57,7 @@ function isMatching(full, chunk) {
   return full.toLowerCase().includes(chunk.toLowerCase());
 }
 
+const homeworkContainer = document.querySelector('#homework-container');
 /* Блок с надписью "Загрузка" */
 const loadingBlock = homeworkContainer.querySelector('#loading-block');
 /* Блок с надписью "Не удалось загрузить города" и кнопкой "Повторить" */
