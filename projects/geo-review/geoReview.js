@@ -75,25 +75,14 @@ export default class GeoReview {
         this.map.createPlacemark(coords);
         this.map.closeBalloon();
       } catch (e) {
-        const formerror = document.querySelector('.form-error');
-        formerror.innerText = e.message;
+        const formError = document.querySelector('.form-error');
+        formError.innerText = e.message;
       }
     }
   }
 
-  async getAddress(coords) {
-    const promise = new Promise((resolve, reject) => {
-      ymaps
-          .geocode(coords)
-          .then((response) => resolve(response.geoObjects.get(0).getAddressLine()))
-          .catch((e) => reject(e));
-    });
-    const objectInfo = await promise;
-    return objectInfo;
-  }
-
   async setAddressInForm(coords) {
     const reviewAddress = document.querySelector('[data-role=review-address]');
-    reviewAddress.innerText = await this.getAddress(coords);
+    reviewAddress.innerText = await this.map.getAddress(coords);
   }
 }

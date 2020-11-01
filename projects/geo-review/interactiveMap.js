@@ -8,7 +8,7 @@ export default class InteractiveMap {
 
   async init() {
     await this.injectYMapsScript();
-    await this.loadMaps();
+    await this.loadYMaps();
     this.initMap();
   }
 
@@ -22,7 +22,7 @@ export default class InteractiveMap {
     });
   }
 
-  loadMaps() {
+  loadYMaps() {
     return new Promise((resolve) => ymaps.ready(resolve));
   }
 
@@ -41,12 +41,12 @@ export default class InteractiveMap {
       zoom: 14,
       controls: [],
     });
-    
+
     this.map.controls.add('zoomControl');
     this.map.behaviors.disable(['dblClickZoom']);
     this.map.events.add('click', (e) => this.onClick(e.get('coords')));
+    // this.clusterer.add(geoObjects);
     this.map.geoObjects.add(this.clusterer);
-    
   }
 
   openBalloon(coords, content) {
@@ -62,20 +62,35 @@ export default class InteractiveMap {
   }
 
   createPlacemark(coords) {
-    const placemark = new ymaps.Placemark(coords,{
-      hintContent: 'Кликни меня!',
-    },  
-    {
-      iconLayout: 'default#image',
-      iconImageHref: require('./img/pin.png').default,
-      iconImageSize: [30, 42],
-      iconImageOffset: [-15, -21],
-    });
+    const placemark = new ymaps.Placemark(
+      coords,
+      {
+        hintContent: 'Кликни меня!',
+      },
+      {
+        iconLayout: 'default#image',
+        iconImageHref: require('./img/pin.png').default,
+        iconImageSize: [30, 42],
+        iconImageOffset: [-15, -21],
+      }
+    );
 
     placemark.events.add('click', (e) => {
       const coords = e.get('target').geometry.getCoordinates();
       this.onClick(coords);
     });
-    this.clusterer.add(placemark);
+
+    this.map.geoObjects.add(placemark);
+  }
+
+  async getAddress(coords) {
+    const promise = new Promise((resolve, reject) => {
+      ymaps
+        .geocode(coords)
+        .then((response) => resolve(response.geoObjects.get(0).getAddressLine()))
+        .catch((e) => reject(e));
+    });
+    const objectInfo = await promise;
+    return objectInfo;
   }
 }
