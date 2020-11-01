@@ -2,7 +2,7 @@ import InteractiveMap from './interactiveMap';
 
 export default class GeoReview {
   constructor() {
-    this.formTempalte = document.querySelector('#addFormTemplate').innerHTML;
+    this.formTemplate = document.querySelector('#addFormTemplate').innerHTML;
     this.map = new InteractiveMap('map', this.onClick.bind(this));
     this.map.init().then(this.onInit.bind(this));
   }
@@ -29,7 +29,7 @@ export default class GeoReview {
 
   createForm(coords, reviews) {
     const root = document.createElement('div');
-    root.innerHTML = this.formTempalte;
+    root.innerHTML = this.formTemplate;
     const reviewList = root.querySelector('.review-list');
     const reviewForm = root.querySelector('[data-role=review-form]');
     reviewForm.dataset.coords = JSON.stringify(coords);
@@ -38,11 +38,11 @@ export default class GeoReview {
       const div = document.createElement('div');
       div.classList.add('review-item');
       div.innerHTML = `
-      <div>
-        <b>${item.name}</b> ${item.place} 
-      </div>
-      <div>${item.text}</div>  
-      `;
+    <div>
+      <b>${item.name}</b> [${item.place}] 
+    </div>
+    <div>${item.text}</div>  
+    `;
       reviewList.appendChild(div);
     }
 
@@ -54,6 +54,7 @@ export default class GeoReview {
     const list = await this.callApi('list', { coords });
     const form = this.createForm(coords, list);
     this.map.setBalloonContent(form.innerHTML);
+    await this.setAddressInForm(coords);
   }
 
   async onDocumentClick(e) {
@@ -78,5 +79,21 @@ export default class GeoReview {
         formerror.innerText = e.message;
       }
     }
+  }
+
+  async getAddress(coords) {
+    const promise = new Promise((resolve, reject) => {
+      ymaps
+          .geocode(coords)
+          .then((response) => resolve(response.geoObjects.get(0).getAddressLine()))
+          .catch((e) => reject(e));
+    });
+    const objectInfo = await promise;
+    return objectInfo;
+  }
+
+  async setAddressInForm(coords) {
+    const reviewAddress = document.querySelector('[data-role=review-address]');
+    reviewAddress.innerText = await this.getAddress(coords);
   }
 }
