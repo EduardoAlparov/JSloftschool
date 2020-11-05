@@ -11,6 +11,7 @@ const htmlPlugins = [];
 const proxy = {};
 
 for (const project of projects) {
+  ('');
   const projectPath = path.join(root, project);
   entries[project] = projectPath;
   htmlPlugins.push(

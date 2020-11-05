@@ -7,12 +7,13 @@
   }
 
   .popup {
-    min-height: 400px;
+    min-height: 340px;
   }
 
 .review-address {
   background-color: #ff8663;
   font-size: 10px;
+  margin-bottom: 15px;
 }
 
 .form {
@@ -24,6 +25,10 @@
         max-height: 500px;
         overflow: scroll;
     }
+
+.review-list {
+  position: relative;
+}    
 
 input {
     font-size: 15px;
@@ -47,8 +52,51 @@ textarea {
     margin: 8px 0;
     box-sizing: border-box;
     width: 352px;
-
 }
+
+button {
+  float:right;
+  height: 30px;
+  width: 100px;
+  border-radius: 3px;
+  background-color: #ff8663;
+  color: white;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+}
+
+.review-item {
+  display: none;
+}
+
+.btnSlide {
+  border-radius: 2px;
+  position: absolute;
+  font-size: 18px;
+  text-align: center;
+  height: 20px;
+  width: 20px;
+  color: white;
+  background: #ff8663;
+  right: 0;
+  top: 25%;
+  cursor: pointer;
+  display: none;
+}
+
+button:hover {
+  color:slategray ;
+}
+
+.btnSlide:hover {
+  color:slategray ;
+}
+
+.block {
+  display: block;
+}
+
 </style>
 
 
@@ -57,22 +105,22 @@ textarea {
 <script type="template" id="addFormTemplate">
   <div class="popup">
     <div class="review-address" data-role="review-address"></div>
-    <div class="review-list"></div>
+    <div class="review-list"><div data-role="review-scroll" class="btnSlide">></div></div>
     <hr>
-    <div class="form" data-role="review-form">
+    <form class="form" data-role="review-form">
       <p>Ваш отзыв</p>
       <div class='field'>
-        <input data-role="review-name" type="text" placeholder="Укажите ваше имя">
+        <input data-role="review-name" type="text" required="1" placeholder="Укажите ваше имя">
       </div>  
       <div class='field'>
-        <input data-role="review-place" type="text" placeholder="Укажите место">
+        <input data-role="review-place" type="text" require placeholder="Укажите место">
       </div>  
       <div class='field'>
-        <textarea data-role="review-text" type="text" placeholder="Оставьте отзыв"></textarea>
+        <textarea data-role="review-text" type="text" required placeholder="Оставьте отзыв" maxlength="70" ></textarea>
       </div>  
-      <button data-role="review-add">Добавить</button>
+      <button type="submit" data-role="review-add">Добавить</button>
       <span class="form-error"></span>
-    </div>  
+    </form>  
   </div>  
 </script>  
 

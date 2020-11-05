@@ -28,7 +28,7 @@ export default class InteractiveMap {
 
   initMap() {
     this.clusterer = new ymaps.Clusterer({
-      groupByCoordinetes: true,
+      groupByCoordinates: true,
       clusterDisableClickZoom: true,
       clusterOpenBalloonOnClick: false,
     });
@@ -45,7 +45,6 @@ export default class InteractiveMap {
     this.map.controls.add('zoomControl');
     this.map.behaviors.disable(['dblClickZoom']);
     this.map.events.add('click', (e) => this.onClick(e.get('coords')));
-    // this.clusterer.add(geoObjects);
     this.map.geoObjects.add(this.clusterer);
   }
 
@@ -80,7 +79,7 @@ export default class InteractiveMap {
       this.onClick(coords);
     });
 
-    this.map.geoObjects.add(placemark);
+    this.clusterer.add(placemark);
   }
 
   async getAddress(coords) {

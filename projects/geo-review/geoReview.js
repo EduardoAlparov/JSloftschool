@@ -36,6 +36,9 @@ export default class GeoReview {
 
     for (const item of reviews) {
       const div = document.createElement('div');
+      if (item === reviews[0]) {
+        div.classList.add('block');
+      }
       div.classList.add('review-item');
       div.innerHTML = `
     <div>
@@ -45,7 +48,6 @@ export default class GeoReview {
     `;
       reviewList.appendChild(div);
     }
-
     return root;
   }
 
@@ -55,6 +57,25 @@ export default class GeoReview {
     const form = this.createForm(coords, list);
     this.map.setBalloonContent(form.innerHTML);
     await this.setAddressInForm(coords);
+
+    const btnRight = document.querySelector('.btnSlide');
+    const slides = document.querySelectorAll('.review-item');
+    let i = 0;
+    btnRight.addEventListener('click', () => {
+      console.log('!!!!');
+      ++i;
+      if (i >= slides.length) {
+        slides[i - 1].classList.remove('block');
+        i = 0;
+        slides[i].classList.add('block');
+      } else {
+        slides[i - 1].classList.remove('block');
+        slides[i].classList.add('block');
+      }
+    });
+    if (slides.length > 2) {
+      btnRight.style.display = 'block';
+    }
   }
 
   async onDocumentClick(e) {
