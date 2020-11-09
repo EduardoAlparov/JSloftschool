@@ -24,7 +24,13 @@ export default class GeoReview {
       method: 'post',
       body: JSON.stringify(body),
     });
-    return await res.json();
+
+    if (res.ok) {
+      return await res.json();
+    } else {
+      throw new Error('Ошибка!');
+    }
+    // return await res.json();
   }
 
   createForm(coords, reviews) {
@@ -93,12 +99,12 @@ export default class GeoReview {
 
       try {
         await this.callApi('add', data);
-        this.map.createPlacemark(coords);      
+        this.map.createPlacemark(coords);
         this.map.closeBalloon();
       } catch (e) {
         const formError = document.querySelector('[data-role="review-error"]');
         formError.textContent = e.message;
-      }  
+      }
     }
   }
 

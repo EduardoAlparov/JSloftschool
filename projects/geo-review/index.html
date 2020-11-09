@@ -7,7 +7,7 @@
   }
 
   .popup {
-    min-height: 340px;
+    min-height: 350px;
   }
 
 .review-address {
@@ -97,6 +97,11 @@ button:hover {
   display: block;
 }
 
+.error {
+  color: red;
+  font: 18px bold;
+}
+
 </style>
 
 
@@ -119,7 +124,7 @@ button:hover {
         <textarea data-role="review-text" type="text" required placeholder="Оставьте отзыв" maxlength="70" ></textarea>
       </div>  
       <button type="submit" data-role="review-add">Добавить</button>
-      <span data-role="review-error"></span>
+      <span class="error" data-role="review-error"></span>
     </form>  
   </div>  
 </script>  
