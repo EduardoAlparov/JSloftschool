@@ -61,24 +61,17 @@ export default class InteractiveMap {
   }
 
   createPlacemark(coords) {
-    const placemark = new ymaps.Placemark(
-      coords,
-      {
-        hintContent: 'Кликни меня!',
-      },
-      {
+    const placemark = new ymaps.Placemark(coords,{}, {
         iconLayout: 'default#image',
         iconImageHref: require('./img/pin.png').default,
         iconImageSize: [30, 42],
         iconImageOffset: [-15, -21],
-      }
-    );
+    });
 
     placemark.events.add('click', (e) => {
       const coords = e.get('target').geometry.getCoordinates();
       this.onClick(coords);
     });
-
     this.clusterer.add(placemark);
   }
 

@@ -20,6 +20,10 @@ socket.on('users:connect', (data, ws) => {
     db.getUsersById(Array.from(socket.connections).map((ws) => ws.id))
   );
   socket.broadcast('users:add', db.getUserById(data.id), false);
+  socket.emit(
+    'messages:add',
+    db.getMessages(data)
+  );
 });
 
 socket.on('disconnect', (id) => {
@@ -27,17 +31,11 @@ socket.on('disconnect', (id) => {
 });
 
 socket.on('users:message', (data, ws) => {
-  // ws.id = data.id
-  // let user = db.getUsersById(Array.from(socket.connections).map(ws => ws.id));
   let user = db.getUserById(data.id);
+  
+  db.saveMessage(user);
   user.message = data.message;
   socket.broadcast('message:send', user);
-
-  // for (const prop of Object.getOwnPropertyNames(user)) {
-  //     delete user[prop];
-  // }
-
-  console.log(user);
   user = {};
 });
 
@@ -148,7 +146,6 @@ function auth(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, 'chat');
-
     req.user = decoded.user;
     next();
   } catch (err) {

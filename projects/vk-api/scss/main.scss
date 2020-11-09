@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+
+.app {
+  &__header{
+    padding-top: 20px;
+  }
+  &__friends{
+    padding-top: 100px;
+  }
+}
+
+.friends {
+  &__container{
+    display: flex;
+  }
+  &__list{
+    height: 720px;
+    overflow-y: auto;
+    flex: 1;
+    margin-left: 10px;
+    &:last-child{
+      margin-right: 0;
+    }
+  }
+  &__item{
+    padding: 5px 20px;
+    background-color: rgba(0,0,0, .1);
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  &__filter{
+    margin-bottom: 10px;
+    &-input{
+      width: 94%;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  }
+
+  &__type{
+    margin-bottom: 10px;
+  }
+}
+
+.header{
+  &__container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.logo{
+  font-size: 30px;
+  font-family: 'Henny Penny', cursive;
+}
+
+.container{
+  width: 95%;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+ul{
+  li{
+    list-style: none;
+  }
+}
+
+p{
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.user, .friend{
+  display: flex;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+  &__photo{
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+    overflow: hidden;
+  }
+  &__img{
+    max-width: 100%;
+  }
+  &__name{
+    margin-left: 15px;
+    font-weight: 300px;
+  }
+}
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar { width: 1px;}
+::-webkit-scrollbar-track { background-color: transparent;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+<div class="friends">   
+  <div class="container friends__container">
+    <ul class="friends__list">
+      <div class="friends__filter">
+        <input class="friends__filter-input" placeholder="фильтр" type="text">
+      </div>
+      <div class="friends__type"><p>Ваши друзья</p></div>
+      {{#each items}}
+        <li class="friends__item">
+            <div class="friend">
+              <div class="friend__photo">
+                <img src="{{photo_100}}" alt="photo" class="friend__img"> 
+              </div>
+              <div class="friend__name">{{first_name}} {{last_name}}</div>
+            </div>
+        </li>
+      {{/each}}
+    </ul>
+    <ul class="friends__list">
+      <div class="friends__filter">
+        <input class="friends__filter-input" placeholder="фильтр" type="text">
+      </div>
+      <div class="friends__type"><p>Лучшие друзья</p></div>
+    </ul>
+  </div>
+</div>

@@ -19,7 +19,8 @@
         align-items: flex-start;
     }
     &__messager{
-        height: 100%;
+        height: 100vh;
+        overflow-y: scroll;
     }
     &__sidebar{
         flex: 1.5;

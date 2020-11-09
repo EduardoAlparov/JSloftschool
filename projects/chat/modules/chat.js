@@ -17,6 +17,10 @@ export default {
         false
       );
     },
+    'messages:add': (data) => {
+      view.render('[data-role="messages"]', 'messages', { data }, false);
+      document.querySelector('[data-role="messages"]').scrollTop = document.querySelector('[data-role="messages"]').scrollHeight;
+    },
     'users:leave': (user) => {
       document.querySelector(`[data-id="${user.id}"]`).remove();
       view.render(
@@ -35,8 +39,8 @@ export default {
     },
     'message:send': (data) => {
       view.render('[data-role="messages"]', 'messagelist', { data }, false);
-      console.log(data);
-    },
+      document.querySelector('[data-role="messages"]').scrollTop = document.querySelector('[data-role="messages"]').scrollHeight;
+      }
   },
 
   init() {
@@ -56,7 +60,6 @@ export default {
 
     socket.onmessage = ({ data }) => {
       data = JSON.parse(data);
-      console.log(data);
       this.handlers[data.event](data.payload);
     };
 

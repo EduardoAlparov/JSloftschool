@@ -62,7 +62,6 @@ export default class GeoReview {
     const slides = document.querySelectorAll('.review-item');
     let i = 0;
     btnRight.addEventListener('click', () => {
-      console.log('!!!!');
       ++i;
       if (i >= slides.length) {
         slides[i - 1].classList.remove('block');
@@ -73,13 +72,14 @@ export default class GeoReview {
         slides[i].classList.add('block');
       }
     });
-    if (slides.length > 2) {
+    if (slides.length >= 2) {
       btnRight.style.display = 'block';
     }
   }
 
   async onDocumentClick(e) {
     if (e.target.dataset.role === 'review-add') {
+      e.preventDefault();
       const reviewForm = document.querySelector('[data-role=review-form]');
       const coords = JSON.parse(reviewForm.dataset.coords);
       const data = {
@@ -93,12 +93,12 @@ export default class GeoReview {
 
       try {
         await this.callApi('add', data);
-        this.map.createPlacemark(coords);
+        this.map.createPlacemark(coords);      
         this.map.closeBalloon();
       } catch (e) {
-        const formError = document.querySelector('.form-error');
-        formError.innerText = e.message;
-      }
+        const formError = document.querySelector('[data-role="review-error"]');
+        formError.textContent = e.message;
+      }  
     }
   }
 

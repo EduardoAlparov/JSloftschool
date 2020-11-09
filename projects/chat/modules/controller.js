@@ -5,7 +5,6 @@ import chat from './chat';
 import store from '../index';
 
 function renderChat() {
-  console.log(store.getState('user'));
   if (store.getState('user').id) {
     view.render('#chat-container', 'pages/chat');
     chat.init(document.querySelector('[data-page="chat"]'));
@@ -15,7 +14,6 @@ function renderChat() {
 }
 
 function renderLogin() {
-  console.log(store.getState('user'));
   if (store.getState('user').id) {
     location.replace('/chat/#chat');
   } else {

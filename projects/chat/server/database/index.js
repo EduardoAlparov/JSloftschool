@@ -6,6 +6,9 @@ const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync(path.resolve(__dirname, 'db.json'));
 const db = low(adapter);
 
+db.defaults({ users: [], messages: [] })
+  .write()
+
 function getUserByName(username) {
   return db.get('users').find({ login: username }).value();
 }
@@ -19,6 +22,23 @@ function getUserByAuth(login, password) {
   } else {
     return null;
   }
+}
+
+function saveMessage(user) {
+  db.get('messages')
+    .push({
+      id: user.id,
+      image: user.image,
+      name: user.name,
+      message: user.message,
+    })
+    .write();
+}
+
+function getMessages(data) {
+  return db
+    .get('messages')
+    .take(50)
 }
 
 function createUser(user) {
@@ -36,7 +56,7 @@ function createUser(user) {
     })
     .write();
 
-  const checkUser = db.get('users').find({ id }).value();
+  const checkUser = db.get('users').value()
 
   if (checkUser) {
     return checkUser;
@@ -61,6 +81,8 @@ function getUserById(id) {
 }
 
 module.exports = {
+  saveMessage,
+  getMessages,
   getUserByAuth,
   getUserByName,
   getUsersById,
